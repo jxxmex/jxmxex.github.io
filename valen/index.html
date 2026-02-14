@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For you, love 🌹</title>
+  <style>
+    /* ----- RESET & GLOBAL ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: linear-gradient(145deg, #2c1a1a 0%, #4b2b2b 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      margin: 0;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* soft vintage overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 230, 240, 0.08), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* main cards – warm, classic, elegant */
+    .card {
+      background: #fffef7;  /* soft antique white */
+      padding: 2rem 1.8rem;
+      border-radius: 32px 32px 32px 8px;  /* romantic irregularity */
+      box-shadow: 0 25px 40px -10px rgba(60, 20, 20, 0.5),
+                  inset 0 0 0 1px rgba(255, 215, 215, 0.6);
+      width: 100%;
+      max-width: 520px;
+      transition: all 0.3s ease;
+      border: 1px solid #edd4d4;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(2px);
+      margin: 0.5rem;
+    }
+
+    /* name card special touch */
+    .name-input {
+      background: #fffaf3;
+      border-left: 10px solid #c98787;
+    }
+
+    h2 {
+      font-family: 'Georgia', serif;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: #3e2620;
+      margin-bottom: 1.2rem;
+      font-size: 1.8rem;
+      text-shadow: 2px 2px 0 rgba(235, 150, 150, 0.1);
+    }
+
+    .subhead {
+      font-style: italic;
+      color: #946b6b;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    /* input field – romantic */
+    input {
+      background: #fef6ea;
+      border: 2px solid #eac3c3;
+      border-radius: 60px;
+      padding: 14px 22px;
+      font-size: 1.15rem;
+      width: 80%;
+      max-width: 300px;
+      font-family: 'Georgia', serif;
+      color: #3b2b2b;
+      outline: none;
+      text-align: center;
+      transition: all 0.25s;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+    }
+
+    input:focus {
+      border-color: #c47070;
+      background: #fffcf5;
+      box-shadow: 0 0 0 4px #f3d9d9;
+    }
+
+    /* buttons – elegant, soft */
+    button {
+      background: #f0dbdb;
+      border: none;
+      padding: 14px 32px;
+      font-size: 1.25rem;
+      border-radius: 50px;
+      font-family: 'Georgia', serif;
+      font-weight: 400;
+      color: #422a2a;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 5px 0 #b47c7c, 0 8px 14px rgba(90, 40, 40, 0.2);
+      margin: 8px 10px;
+      letter-spacing: 0.5px;
+      border: 1px solid #fceaea;
+    }
+
+    button:active {
+      transform: translateY(5px);
+      box-shadow: 0 3px 0 #b47c7c, 0 8px 14px rgba(90,40,40,0.15);
+    }
+
+    #startBtn {
+      background: #c48b8b;
+      color: #fef7e9;
+      box-shadow: 0 5px 0 #6e4747, 0 8px 14px #3b2525;
+      padding: 14px 42px;
+      font-size: 1.3rem;
+    }
+
+    .question {
+      font-size: 2rem;
+      font-family: 'Georgia', serif;
+      color: #592e2e;
+      margin: 25px 0 15px;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.3;
+      background: #fff0f0;
+      padding: 0.5rem 1rem;
+      border-radius: 60px;
+      display: inline-block;
+      box-shadow: 0 2px 10px #edd4d4;
+    }
+
+    /* special container for YES/NO (relative for NO button movement) */
+    .buttons {
+      position: relative;
+      width: 100%;
+      height: 260px;
+      margin: 20px 0 10px;
+      background: #fffcf2;
+      border-radius: 120px 120px 40px 40px;
+      border: 2px dashed #eebcbc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #yesBtn {
+      background: #b86b6b;
+      color: #fff9f0;
+      font-size: 1.8rem;
+      padding: 16px 40px;
+      box-shadow: 0 6px 0 #6d3d3d, 0 10px 18px #4d2a2a;
+      border: 1px solid #e4b3b3;
+      position: relative;
+      z-index: 10;
+    }
+
+    #noBtn {
+      background: #3f3232;
+      color: #ffecec;
+      font-size: 1.6rem;
+      padding: 16px 38px;
+      box-shadow: 0 6px 0 #251c1c, 0 10px 14px #3e2b2b;
+      border: 1px solid #6f5e5e;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: left 0.15s ease-out, top 0.15s ease-out;
+      will-change: left, top;
+      z-index: 20;
+      cursor: pointer;
+    }
+
+    /* flower / final message – vintage romantic */
+    .flower {
+      background: #faf2e9;
+      border: 12px double #d9a7a7;
+      padding: 2.2rem 1.8rem;
+      text-align: center;
+      display: none;
+      animation: softAppear 1.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+    }
+
+    .flower h2 {
+      font-size: 1.7rem;
+      line-height: 1.6;
+      color: #371f1f;
+      white-space: pre-line;  /* to keep line breaks */
+      font-weight: 400;
+      margin-bottom: 2rem;
+      border-bottom: 2px dotted #cfa4a4;
+      padding-bottom: 1.5rem;
+    }
+
+    .flower-emoji {
+      font-size: 3.5rem;
+      letter-spacing: 15px;
+      filter: drop-shadow(0 5px 6px #e0b6b6);
+      margin-top: 0.5rem;
+    }
+
+    /* signature small */
+    .signature {
+      margin-top: 2rem;
+      font-style: italic;
+      color: #996e6e;
+      font-size: 1.1rem;
+    }
+
+    /* animations */
+    @keyframes softAppear {
+      0% { opacity: 0; transform: scale(0.92) rotate(-0.5deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+
+    /* responsiveness */
+    @media (max-width: 450px) {
+      h2 { font-size: 1.5rem; }
+      .question { font-size: 1.6rem; }
+      #yesBtn, #noBtn { font-size: 1.4rem; padding: 14px 24px; }
+      .buttons { height: 220px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Name input card -->
+  <div class="card name-input" id="nameCard">
+    <h2>💌 for someone special</h2>
+    <p class="subhead">— type your name, my love —</p>
+    <input type="text" id="name" placeholder="your name..." autocomplete="off">
+    <br>
+    <button id="startBtn">open me 🌹</button>
+  </div>
+
+  <!-- Question card (hidden initially) -->
+  <div class="card container" id="mainContainer" style="display:none;">
+    <div class="question" id="question"></div>
+    <div class="buttons">
+      <button id="yesBtn">YES 💖</button>
+      <button id="noBtn">NO 🙅</button>
+    </div>
+    <p style="color:#ad7a7a; font-style:italic; margin-top:10px;">(the NO button is shy)</p>
+  </div>
+
+  <!-- Final flower message card (hidden initially) -->
+  <div class="card flower" id="flowerPage">
+    <h2 id="message"></h2>
+    <div class="flower-emoji">🌸🌺🌷🌹🌼</div>
+    <div class="signature">— always yours</div>
+  </div>
+
+  <script>
+    (function() {
+      // get elements
+      const startBtn = document.getElementById('startBtn');
+      const nameInput = document.getElementById('name');
+      const nameCard = document.getElementById('nameCard');
+      const mainContainer = document.getElementById('mainContainer');
+      const questionEl = document.getElementById('question');
+      const yesBtn = document.getElementById('yesBtn');
+      const noBtn = document.getElementById('noBtn');
+      const flowerPage = document.getElementById('flowerPage');
+      const messageEl = document.getElementById('message');
+
+      // customized final text (exactly as requested, with line breaks)
+      const customMessage = `Hi love, alam kong hindi ito sapat pero sana magustuhan mo
+ Love, Happy Valentines! alam kong hindi naging madali ang ating relasyon 
+            may mga araw na masaya at may mga araw na hindi, pero sa kabila ng lahat
+            ngayon ay lagi mong isipin na nandito lang ako na nagmamahal sayo, and sorry
+            sa mga pagkukulang at pagkakamali ko
+
+And sorry din dahil late na HAHAHAHA, pero sana magustuhan mo,
+             Iloveyou so much love at sana mapatawad moko sa pagkukulang at pagkakamali ko.
+             mahal na mahal kita`;
+
+      // start button: validate name, show question
+      startBtn.addEventListener('click', () => {
+        const name = nameInput.value.trim();
+        if (name) {
+          // fade out name card, show question card
+          nameCard.style.display = 'none';
+          mainContainer.style.display = 'block';
+          questionEl.innerText = `${name}, do you love me? 💕`;
+        } else {
+          alert('Please enter your name first, love 💗');
+        }
+      });
+
+      // YES button: hide question card, show flower card with personalized message
+      yesBtn.addEventListener('click', () => {
+        mainContainer.style.display = 'none';
+        flowerPage.style.display = 'block';
+        // use the custom message exactly
+        messageEl.innerText = customMessage;
+      });
+
+      // NO button runaway logic (works on both mouse and touch)
+      function moveNoButton() {
+        // get container boundaries
+        const container = document.querySelector('.buttons');
+        if (!container) return;
+
+        const containerRect = container.getBoundingClientRect();
+        const noRect = noBtn.getBoundingClientRect();
+
+        // button dimensions (including margin/padding? we use offsetWidth)
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+
+        // max left/top within container (avoid overflow)
+        const maxLeft = Math.max(0, containerRect.width - btnWidth);
+        const maxTop = Math.max(0, containerRect.height - btnHeight);
+
+        // generate random positions, but keep button fully inside container
+        const randomLeft = Math.min(maxLeft, Math.random() * maxLeft);
+        const randomTop = Math.min(maxTop, Math.random() * maxTop);
+
+        // apply new position (relative to container)
+        noBtn.style.left = randomLeft + 'px';
+        noBtn.style.top = randomTop + 'px';
+      }
+
+      // attach event listeners for NO button
+      noBtn.addEventListener('mouseover', moveNoButton);
+      noBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();   // avoid any weird click
+        moveNoButton();
+      });
+
+      // extra: ensure no button doesn't escape container on window resize (optional)
+      window.addEventListener('resize', () => {
+        // only if main container visible and no button is in "moved" state (absolute)
+        if (mainContainer.style.display === 'block') {
+          // reset to default center? no, better just clamp if needed, but we let it be random again on hover.
+          // to avoid being out of bounds, reposition a bit (optional)
+          // but we just leave it — it will adjust on next hover.
+        }
+      });
+
+      // optional: if the no button is clicked/tapped, we also move (extra mischief)
+      noBtn.addEventListener('click', (e) => {
+        e.preventDefault();   // never allow actual "NO"
+        moveNoButton();
+      });
+
+    })();
+  </script>
+</body>
+</html>
